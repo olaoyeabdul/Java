@@ -1,0 +1,90 @@
+/**********************************************************
+ *                                                        *
+ *  CSCI 470/502        Assignment 6            Fall 2018 *
+ *                                                        *
+ *  Class Name:  HourlyEmployee                           *
+ *                                                        *
+ *  Developer(s):  Abdulsalam I Olaoye                    *
+ *                                                        *
+ *  Purpose: HourlyEmployee class implements methods and  *
+ *           properties an hourly  employee would possess *
+ *               and the class is a Employee sub-class    *
+ **********************************************************/
+package payableinterfacetest;
+
+// HourlyEmployee class extends Employee.
+
+public class HourlyEmployee extends Employee 
+{
+   private double wage; // wage per hour
+   private double hours; // hours worked for week
+
+   // constructor
+   public HourlyEmployee(String firstName, String lastName,
+      String socialSecurityNumber, double wage, double hours)
+   {
+      super(firstName, lastName, socialSecurityNumber);
+
+      if (wage < 0.0) // validate wage
+         throw new IllegalArgumentException(
+            "Hourly wage must be >= 0.0");
+
+      if ((hours < 0.0) || (hours > 168.0)) // validate hours
+         throw new IllegalArgumentException(
+            "Hours worked must be >= 0.0 and <= 168.0");
+
+      this.wage = wage;
+      this.hours = hours;
+   } 
+
+   // set wage
+   public void setWage(double wage)
+   {
+      if (wage < 0.0) // validate wage
+         throw new IllegalArgumentException(
+            "Hourly wage must be >= 0.0");
+
+      this.wage = wage;
+   } 
+
+   // return wage
+   public double getWage()
+   {
+      return wage;
+   } 
+
+   // set hours worked
+   public void setHours(double hours)
+   {
+      if ((hours < 0.0) || (hours > 168.0)) // validate hours
+         throw new IllegalArgumentException(
+            "Hours worked must be >= 0.0 and <= 168.0");
+
+      this.hours = hours;
+   } 
+
+   // return hours worked
+   public double getHours()
+   {
+      return hours;
+   } 
+
+      // calculates payment amount and returns it; override interface method getPaymentAmount in Payable
+   @Override                                                           
+   public double getPaymentAmount()                                            
+   {                                                                   
+      if (getHours() <= 40) // no overtime                           
+         return getWage() * getHours();                                
+      else                                                             
+         return 40 * getWage() + (getHours() - 40) * getWage() * 1.5;
+   }                                          
+
+   // return String representation of HourlyEmployee object              
+   @Override                                                             
+   public String toString()                                              
+   {                                                                     
+      return String.format("hourly employee: %s%n%s: $%,.2f; %s: %,.2f",
+         super.toString(), "hourly wage", getWage(),                     
+         "hours worked", getHours());                                   
+   }                                    
+} // end class HourlyEmployee
